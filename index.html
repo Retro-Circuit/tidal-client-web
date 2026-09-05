@@ -3,34 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tidal Client</title>
-    
-    <!-- Google Fonts: Inter -->
+    <title>Tidal Client | Professional Minecraft Launcher</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            /* Core Colors requested */
-            --bg-base: #121212;
-            --bg-card: #18181b;
+            --bg-primary: #121212;
+            --bg-secondary: #18181b;
+            --bg-card: #1f1f23;
             --accent: #0349fc;
-            --accent-glow: rgba(3, 73, 252, 0.3);
             --accent-hover: #2662ff;
-            
-            /* Typography Colors */
-            --text-primary: #ffffff;
-            --text-secondary: #a1a1aa;
-            
-            /* Glassmorphism & UI Elements */
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-hover: rgba(255, 255, 255, 0.06);
-            
-            /* Spacing & Layout */
-            --nav-height: 80px;
-            --container-width: 1200px;
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --border-color: #27272a;
         }
 
         * {
@@ -41,15 +28,45 @@
         }
 
         body {
-            background-color: var(--bg-base);
-            color: var(--text-primary);
+            background-color: var(--bg-primary);
+            color: var(--text-main);
             overflow-x: hidden;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            background-image: radial-gradient(circle at 50% 0%, rgba(3, 73, 252, 0.08) 0%, transparent 50%);
         }
 
-        /* --- Background Canvas --- */
+        #intro-loader {
+            position: fixed;
+            inset: 0;
+            background-color: var(--accent);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
+            transform: translateY(0);
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.4s ease 0.8s;
+        }
+
+        #intro-loader.slide-up {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-brand {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            animation: pulseBrand 1.2s ease infinite alternate;
+        }
+
+        @keyframes pulseBrand {
+            0% { transform: scale(0.98); opacity: 0.9; }
+            100% { transform: scale(1.02); opacity: 1; }
+        }
+
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -57,85 +74,52 @@
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            pointer-events: none;
-            opacity: 0.4;
-        }
-
-        /* --- Typography Helpers --- */
-        .text-gradient {
-            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            opacity: 0.3;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: var(--nav-height);
-            padding: 0 5%;
+            padding: 1.2rem 5%;
+            background: rgba(18, 18, 18, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 100;
-            background: rgba(18, 18, 18, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.85rem;
+        .logo {
+            font-size: 1.25rem;
             font-weight: 700;
-            font-size: 1.15rem;
-            letter-spacing: -0.3px;
-            cursor: pointer;
-        }
-
-        /* Modular Logo Container */
-        .logo-img-container {
-            width: 38px;
-            height: 38px;
-            background: var(--glass-bg);
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .logo-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+            gap: 0.75rem;
+            letter-spacing: -0.5px;
         }
 
-        .logo-img-container span {
-            font-size: 0.55rem;
-            color: var(--text-secondary);
-            text-align: center;
-            padding: 2px;
+        .logo img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 6px;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none; 
-            }
+            .nav-links { display: none; }
         }
 
         .nav-links a {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
@@ -143,48 +127,30 @@
         }
 
         .nav-links a:hover {
-            color: var(--text-primary);
+            color: var(--text-main);
         }
 
-        /* --- Buttons --- */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.75rem;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.6rem 1.4rem;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.95rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
             border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 20px rgba(3, 73, 252, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .btn-primary {
-            background-color: var(--accent);
-            color: white;
-            box-shadow: 0 4px 20px var(--accent-glow);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-primary:hover {
+        .btn:hover {
             background-color: var(--accent-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--accent-glow);
-        }
-
-        .btn-secondary {
-            background-color: var(--glass-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--glass-hover);
-            border-color: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(3, 73, 252, 0.5);
         }
 
         .hero {
@@ -194,240 +160,212 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: calc(var(--nav-height) + 3rem) 5% 4rem;
-            max-width: var(--container-width);
-            margin: 0 auto;
+            padding: 9rem 5% 5% 5%;
+            position: relative;
         }
 
-        .hero-badge {
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 0.9rem;
             background: rgba(3, 73, 252, 0.1);
             border: 1px solid rgba(3, 73, 252, 0.3);
-            color: #6b8cff;
-            padding: 0.4rem 1rem;
             border-radius: 50px;
             font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 2rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
         }
 
         .hero h1 {
-            font-size: clamp(2.8rem, 6vw, 4.8rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
             letter-spacing: -1.5px;
+            line-height: 1.1;
         }
 
         .hero p {
-            font-size: clamp(1.05rem, 2vw, 1.2rem);
-            color: var(--text-secondary);
-            max-width: 620px;
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 650px;
             margin-bottom: 2.5rem;
         }
 
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 4rem;
-        }
-
-        @media (max-width: 600px) {
-            .hero-actions {
-                flex-direction: column;
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-
-        /* 3D Tilt Container for Hero Preview */
-        .tilt-wrapper {
+        .hero-image-container {
+            width: 100%;
+            max-width: 1000px;
+            height: 540px;
+            margin-top: 2rem;
             perspective: 1200px;
-            width: 100%;
-            max-width: 1050px;
         }
 
-        .tilt-element {
+        .hero-img-card {
             width: 100%;
-            aspect-ratio: 16 / 9;
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
+            height: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 
-                        inset 0 1px 0 rgba(255, 255, 255, 0.08);
             display: flex;
             justify-content: center;
             align-items: center;
+            color: var(--text-muted);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            transition: transform 0.1s ease-out, border-color 0.3s ease;
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-            position: relative;
             overflow: hidden;
         }
 
-        .hero-img-container {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            background: linear-gradient(135deg, rgba(255,255,255,0.01) 0%, transparent 100%);
+        .hero-img-card:hover {
+            border-color: rgba(3, 73, 252, 0.4);
         }
 
-        .hero-img-container img {
+        .hero-img-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 16px;
-        }
-
-        .placeholder-fallback {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .placeholder-box-icon {
-            width: 48px;
-            height: 48px;
-            border: 2px dashed var(--glass-border);
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 15px;
+            transform: translateZ(30px);
         }
 
         .features {
-            padding: 6rem 5%;
-            max-width: var(--container-width);
-            margin: 0 auto;
+            padding: 7rem 5%;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             position: relative;
         }
 
-        .section-header {
+        .section-title {
             text-align: center;
+            font-size: 2.5rem;
             margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-size: clamp(2rem, 4vw, 2.8rem);
             font-weight: 700;
             letter-spacing: -1px;
-            margin-bottom: 1rem;
-        }
-
-        .section-header p {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            max-width: 580px;
-            margin: 0 auto;
         }
 
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .feature-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
             padding: 2.5rem 2rem;
-            backdrop-filter: blur(12px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .feature-card:hover {
             transform: translateY(-8px);
-            border-color: rgba(3, 73, 252, 0.4);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(3, 73, 252, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        /* Modular Image Container for Feature Icons */
-        .feature-img-container {
-            width: 64px;
-            height: 64px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon-box {
+            width: 56px;
+            height: 56px;
+            background-color: rgba(3, 73, 252, 0.1);
+            border: 1px solid rgba(3, 73, 252, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             border-radius: 12px;
             margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
+            transition: transform 0.3s ease;
         }
 
-        .feature-img-container img {
-            width: 100%;
-            height: 100%;
+        .feature-card:hover .feature-icon-box {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-icon-box img {
+            width: 28px;
+            height: 28px;
             object-fit: contain;
-            padding: 8px;
-        }
-
-        .feature-img-container span {
-            font-size: 0.6rem;
-            color: var(--text-secondary);
-            text-align: center;
-            padding: 4px;
         }
 
         .feature-card h3 {
             font-size: 1.25rem;
-            font-weight: 600;
             margin-bottom: 0.75rem;
-            color: var(--text-primary);
+            letter-spacing: -0.5px;
         }
 
         .feature-card p {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.6;
         }
 
-        footer {
-            border-top: 1px solid var(--glass-border);
-            padding: 3rem 5%;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            background: rgba(10, 10, 10, 0.5);
-        }
-
-        .fade-in-up {
+        .reveal-up {
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
 
-        .fade-in-up.visible {
+        .reveal-up.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            background-color: var(--bg-secondary);
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- Background Particles Canvas -->
+    <div id="intro-loader">
+        <div class="loader-brand">Tidal Client</div>
+    </div>
+
     <canvas id="particle-canvas"></canvas>
 
-    <!-- Navigation Bar -->
-    <nav id="navbar">
-        <div class="brand">
-            <!-- LOGO IMAGE CONTAINER -->
-            <div class="logo-img-container">
-                <img src="images/tidal-logo.png" alt="Tidal Client Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                <span style="display:none;">Logo</span>
-            </div>
+    <nav class="reveal-up">
+        <div class="logo">
+            <img src="images/tidal-logo.png" alt="Tidal Client Logo" onerror="this.style.display='none';">
             Tidal Client
         </div>
         <ul class="nav-links">
@@ -435,211 +373,172 @@
             <li><a href="#download">Download</a></li>
             <li><a href="#support">Support</a></li>
         </ul>
-        <div>
-            <a href="#download" class="btn btn-primary">Download Client</a>
-        </div>
+        <a href="#download" class="btn">Download Launcher</a>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="hero">
-        <div class="hero-badge fade-in-up">In Development</div>
-        <h1 class="fade-in-up" style="transition-delay: 0.1s;">
-            Find your next <span class="text-gradient">world.</span>
-        </h1>
-        <p class="fade-in-up" style="transition-delay: 0.2s;">
-            Tidal Client is the ultimate high-performance launcher built for seamless modding, blazing speeds, and modern customizability.
-        </p>
-        <div class="hero-actions fade-in-up" style="transition-delay: 0.3s;" id="download">
-            <a href="#" class="btn btn-primary">Download for Windows</a>
-            <a href="#features" class="btn btn-secondary">Explore Features</a>
+    <section class="hero">
+        <div class="badge reveal-up">
+            <span class="badge-dot"></span> In Development
         </div>
-
-        <!-- 3D Tilt Image Container for Hero Preview -->
-        <div class="tilt-wrapper fade-in-up" style="transition-delay: 0.4s;">
-            <div class="tilt-element" id="tilt-element">
-                <!-- HERO SCREENSHOT CONTAINER -->
-                <div class="hero-img-container">
-                    <img src="images/tidal-launcher-screenshot.png" alt="Tidal Client UI Screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="placeholder-fallback" style="display:none;">
-                        <div class="placeholder-box-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                        </div>
-                        <span>[ Place tidal-launcher-screenshot.png in images/ folder ]</span>
-                    </div>
-                </div>
+        <h1 class="reveal-up" style="transition-delay: 0.1s;">Find your next world</h1>
+        <p class="reveal-up" style="transition-delay: 0.2s;">
+            Discover, install, and launch Minecraft instances from one dark, quiet surface with native Modrinth and CurseForge support.
+        </p>
+        <a href="#download" class="btn reveal-up" style="transition-delay: 0.3s;" id="download">
+            Download for Windows
+        </a>
+        
+        <div class="hero-image-container reveal-up" style="transition-delay: 0.4s;" id="tilt-container">
+            <div class="hero-img-card" id="tilt-card">
+                <img src="images/tidal-launcher-screenshot.png" alt="Tidal Client UI Preview" onerror="this.parentElement.innerHTML='<span style=\'color: var(--text-muted); font-size: 0.95rem;\'>[ Place tidal-launcher-screenshot.png in images/ folder ]</span>';">
             </div>
         </div>
-    </header>
+    </section>
 
-    <!-- Features Section -->
     <section id="features" class="features">
-        <div class="section-header fade-in-up">
-            <h2>Crafted for Excellence</h2>
-            <p>Everything you need to manage your Minecraft experience, packaged in a beautiful, lightning-fast interface.</p>
-        </div>
-
+        <h2 class="section-title reveal-up">Engineered for Excellence</h2>
         <div class="feature-grid">
             
-            <!-- Feature 1: Instance & Mod Sharing -->
-            <div class="feature-card fade-in-up">
-                <div class="feature-img-container">
-                    <img src="images/feature-share.png" alt="Instance & Mod Sharing" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span style="display:none;">Icon 1</span>
+            <div class="feature-card reveal-up" style="transition-delay: 0.1s;">
+                <div class="feature-icon-box">
+                    <img src="images/share-icon.png" alt="Sharing Icon" onerror="this.style.display='none';">
                 </div>
                 <h3>Instance & Mod Sharing</h3>
-                <p>Export and share your custom modpacks, configurations, and instances with friends in a single click. Synchronization made effortless.</p>
+                <p>Easily package, export, and share your customized modpacks and game instances with friends instantly.</p>
             </div>
 
-            <!-- Feature 2: Maximum Optimization -->
-            <div class="feature-card fade-in-up" style="transition-delay: 0.1s;">
-                <div class="feature-img-container">
-                    <img src="images/feature-optimization.png" alt="Maximum Optimization" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span style="display:none;">Icon 2</span>
+            <div class="feature-card reveal-up" style="transition-delay: 0.2s;">
+                <div class="feature-icon-box">
+                    <img src="images/optimization-icon.png" alt="Optimization Icon" onerror="this.style.display='none';">
                 </div>
                 <h3>Maximum Optimization</h3>
-                <p>Squeeze every frame out of your hardware. Tidal Client auto-configures performance profiles and JVM memory flags specific to your rig.</p>
+                <p>Advanced JVM flags, low-overhead resource management, and custom rendering tweaks for ultimate frame rates.</p>
             </div>
 
-            <!-- Feature 3: Festive Themes -->
-            <div class="feature-card fade-in-up" style="transition-delay: 0.2s;">
-                <div class="feature-img-container">
-                    <img src="images/feature-festive.png" alt="Festive Themes" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                    <span style="display:none;">Icon 3</span>
+            <div class="feature-card reveal-up" style="transition-delay: 0.3s;">
+                <div class="feature-icon-box">
+                    <img src="images/festive-icon.png" alt="Festive Icon" onerror="this.style.display='none';">
                 </div>
-                <h3>Festive Theme - _BLZXY</h3>
-                <p>Customize your launcher with dynamic seasonal themes, beautiful dark mode accents, and community-created visual styles.</p>
+                <h3>Festive Themes</h3>
+                <p>Immerse yourself in dynamically updating seasonal and holiday themes that adapt to the time of year.</p>
             </div>
 
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Tidal Client. All rights reserved. Not affiliated with Mojang AB or Microsoft.</p>
+    <footer class="reveal-up">
+        <p>&copy; 2026 Tidal Client. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
     </footer>
 
-    <!-- Interactive Scripts -->
     <script>
-        
-        /* 1. Scroll Animations (Intersection Observer) */
+        // Solid accent intro loader slide-up
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('intro-loader');
+            setTimeout(() => {
+                loader.classList.add('slide-up');
+            }, 900);
+        });
+
+        // Scroll Reveal Observer
         const observerOptions = {
             root: null,
-            rootMargin: '0px',
-            threshold: 0.1
+            rootMargin: '0px 0px -50px 0px',
+            threshold: 0.15
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    entry.target.classList.add('active');
                     observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            observer.observe(el);
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            revealObserver.observe(el);
         });
 
-        /* 2. 3D Mouse Tilt Effect for Hero Preview */
-        const tiltWrapper = document.querySelector('.tilt-wrapper');
-        const tiltElement = document.getElementById('tilt-element');
+        // Interactive 3D Tilt Effect on Hero Image Card
+        const tiltContainer = document.getElementById('tilt-container');
+        const tiltCard = document.getElementById('tilt-card');
 
-        if (tiltWrapper && tiltElement) {
-            tiltWrapper.addEventListener('mousemove', (e) => {
-                const rect = tiltWrapper.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                const rotateX = -(y / rect.height) * 12; 
-                const rotateY = (x / rect.width) * 12;
-
-                tiltElement.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-            });
-
-            tiltWrapper.addEventListener('mouseleave', () => {
-                tiltElement.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
-                tiltElement.style.transform = 'rotateX(0deg) rotateY(0deg)';
-                
-                setTimeout(() => {
-                    tiltElement.style.transition = 'transform 0.1s ease-out';
-                }, 500);
-            });
-        }
-
-        /* 3. Navbar Scrolled Background State */
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 40) {
-                navbar.style.background = 'rgba(18, 18, 18, 0.92)';
-                navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.4)';
-            } else {
-                navbar.style.background = 'rgba(18, 18, 18, 0.8)';
-                navbar.style.boxShadow = 'none';
-            }
-        });
-
-        /* 4. Particle Canvas Background Animation */
-        const canvas = document.getElementById('particle-canvas');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
+        tiltContainer.addEventListener('mousemove', (e) => {
+            const rect = tiltContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
             
-            let width = canvas.width = window.innerWidth;
-            let height = canvas.height = window.innerHeight;
-            let particles = [];
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = -((y - centerY) / centerY) * 8;
+            const rotateY = ((x - centerX) / centerX) * 8;
+            
+            tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
 
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * width;
-                    this.y = Math.random() * height;
-                    this.size = Math.random() * 1.5;
-                    this.speedX = (Math.random() - 0.5) * 0.25;
-                    this.speedY = (Math.random() - 0.5) * 0.25;
-                    this.opacity = Math.random() * 0.4 + 0.1;
-                }
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    
-                    if (this.x > width) this.x = 0;
-                    if (this.x < 0) this.x = width;
-                    if (this.y > height) this.y = 0;
-                    if (this.y < 0) this.y = height;
-                }
-                draw() {
-                    ctx.fillStyle = `rgba(161, 161, 170, ${this.opacity})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
+        tiltContainer.addEventListener('mouseleave', () => {
+            tiltCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            tiltCard.style.transition = 'transform 0.5s ease-out';
+        });
+
+        tiltContainer.addEventListener('mouseenter', () => {
+            tiltCard.style.transition = 'none';
+        });
+
+        // Subtle Particle Canvas Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 40;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 1.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
             }
-
-            function initParticles() {
-                particles = [];
-                const particleCount = Math.floor((width * height) / 18000); 
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle());
-                }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
             }
-
-            function animateParticles() {
-                ctx.clearRect(0, 0, width, height);
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw();
-                }
-                requestAnimationFrame(animateParticles);
+            draw() {
+                ctx.fillStyle = 'rgba(3, 73, 252, 0.25)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
-
-            window.addEventListener('resize', () => {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-                initParticles();
-            });
-
-            initParticles();
-            animateParticles();
         }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
     </script>
 </body>
 </html>
