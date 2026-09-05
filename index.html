@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tidal Client | Professional Minecraft Launcher</title>
+    <title>Tidal Client</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -140,7 +140,7 @@
             font-size: 0.95rem;
             border: none;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 4px 20px rgba(3, 73, 252, 0.35);
             display: inline-flex;
             align-items: center;
@@ -149,8 +149,20 @@
 
         .btn:hover {
             background-color: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(3, 73, 252, 0.5);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(3, 73, 252, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
         }
 
         .hero {
@@ -176,6 +188,12 @@
             font-weight: 600;
             color: var(--accent);
             margin-bottom: 1.5rem;
+            animation: floatBadge 3s ease-in-out infinite;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
         }
 
         .badge-dot {
@@ -183,37 +201,60 @@
             height: 8px;
             background-color: var(--accent);
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent);
-            animation: pulse-dot 2s infinite;
+            box-shadow: 0 0 12px var(--accent);
+            animation: pulse-dot 1.5s infinite;
         }
 
         @keyframes pulse-dot {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
+            0% { transform: scale(0.95); opacity: 0.7; box-shadow: 0 0 0 0 rgba(3, 73, 252, 0.6); }
+            70% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 0 8px rgba(3, 73, 252, 0); }
+            100% { transform: scale(0.95); opacity: 0.7; box-shadow: 0 0 0 0 rgba(3, 73, 252, 0); }
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            letter-spacing: -1.5px;
-            line-height: 1.1;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1.2rem;
+            letter-spacing: -2px;
+            line-height: 1.05;
+            background: linear-gradient(135deg, #ffffff 30%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: heroTitleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes heroTitleIn {
+            0% { opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(10px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
         .hero p {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
-            max-width: 650px;
+            max-width: 680px;
             margin-bottom: 2.5rem;
+            animation: heroTextIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+            opacity: 0;
+        }
+
+        @keyframes heroTextIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .hero-image-container {
             width: 100%;
-            max-width: 1000px;
-            height: 540px;
+            max-width: 1050px;
+            height: 560px;
             margin-top: 2rem;
-            perspective: 1200px;
+            perspective: 1400px;
+            animation: heroCardIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+            opacity: 0;
+        }
+
+        @keyframes heroCardIn {
+            0% { opacity: 0; transform: translateY(60px) rotateX(15deg); }
+            100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
         }
 
         .hero-img-card {
@@ -221,47 +262,53 @@
             height: 100%;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--text-muted);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            transition: transform 0.1s ease-out, border-color 0.3s ease;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 40px rgba(3, 73, 252, 0.1);
+            transition: transform 0.2s ease-out, border-color 0.4s ease, box-shadow 0.4s ease;
             transform-style: preserve-3d;
             overflow: hidden;
         }
 
         .hero-img-card:hover {
-            border-color: rgba(3, 73, 252, 0.4);
+            border-color: rgba(3, 73, 252, 0.6);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 60px rgba(3, 73, 252, 0.25);
         }
 
         .hero-img-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 15px;
-            transform: translateZ(30px);
+            border-radius: 19px;
+            transform: translateZ(40px);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-img-card:hover img {
+            transform: translateZ(70px) scale(1.04);
         }
 
         .features {
-            padding: 7rem 5%;
+            padding: 8rem 5%;
             background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             position: relative;
         }
 
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 4rem;
-            font-weight: 700;
-            letter-spacing: -1px;
+            font-size: 2.8rem;
+            margin-bottom: 4.5rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
         }
 
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
+            gap: 2.5rem;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -269,11 +316,12 @@
         .feature-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 2.5rem 2rem;
-            border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
         }
 
         .feature-card::before {
@@ -282,16 +330,16 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
+            height: 4px;
             background: linear-gradient(90deg, transparent, var(--accent), transparent);
             opacity: 0;
             transition: opacity 0.4s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(3, 73, 252, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transform: translateY(-16px) scale(1.03);
+            border-color: rgba(3, 73, 252, 0.7);
+            box-shadow: 0 35px 70px rgba(3, 73, 252, 0.3);
         }
 
         .feature-card:hover::before {
@@ -299,44 +347,181 @@
         }
 
         .feature-icon-box {
-            width: 56px;
-            height: 56px;
+            width: 64px;
+            height: 64px;
             background-color: rgba(3, 73, 252, 0.1);
-            border: 1px solid rgba(3, 73, 252, 0.2);
+            border: 1px solid rgba(3, 73, 252, 0.25);
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
+            border-radius: 16px;
+            margin-bottom: 1.8rem;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .feature-card:hover .feature-icon-box {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.2) rotate(10deg);
+            background-color: rgba(3, 73, 252, 0.25);
+            box-shadow: 0 10px 25px rgba(3, 73, 252, 0.4);
         }
 
         .feature-icon-box img {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             object-fit: contain;
         }
 
         .feature-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
+            font-size: 1.35rem;
+            margin-bottom: 0.85rem;
             letter-spacing: -0.5px;
+            font-weight: 700;
         }
 
         .feature-card p {
             color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .download-section {
+            padding: 8rem 5%;
+            background: var(--bg-secondary);
+            text-align: center;
+        }
+
+        .os-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1050px;
+            margin: 3.5rem auto 0 auto;
+        }
+
+        .os-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 3rem 2.2rem;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .os-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            border-color: rgba(3, 73, 252, 0.6);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 30px rgba(3, 73, 252, 0.2);
+        }
+
+        .os-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .os-card p {
+            color: var(--text-muted);
             font-size: 0.95rem;
-            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-section {
+            padding: 8rem 5%;
+            background: var(--bg-primary);
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .faq-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2.2rem;
+            border-radius: 18px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .faq-card:hover {
+            border-color: rgba(3, 73, 252, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .faq-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .faq-card h3 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+
+        .faq-toggle-btn {
+            background: rgba(3, 73, 252, 0.1);
+            border: 1px solid rgba(3, 73, 252, 0.3);
+            color: var(--accent);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+        }
+
+        .faq-toggle-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.15) rotate(90deg);
+            box-shadow: 0 0 15px rgba(3, 73, 252, 0.6);
+        }
+
+        .faq-content {
+            max-height: 200px;
+            opacity: 1;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, margin-top 0.4s ease;
+            margin-top: 1rem;
+        }
+
+        .faq-content p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Collapsed State for FAQ */
+        .faq-card.collapsed .faq-content {
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
         }
 
         .reveal-up {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(60px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
@@ -345,13 +530,27 @@
             transform: translateY(0);
         }
 
+        /* Glowing Cursor Follower Effect */
+        #cursor-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(3, 73, 252, 0.18) 0%, rgba(3, 73, 252, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            transition: opacity 0.3s ease;
+            opacity: 0.85;
+        }
+
         footer {
             text-align: center;
-            padding: 3rem 5%;
+            padding: 3.5rem 5%;
             border-top: 1px solid var(--border-color);
             color: var(--text-muted);
             background-color: var(--bg-secondary);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -361,6 +560,7 @@
         <div class="loader-brand">Tidal Client</div>
     </div>
 
+    <div id="cursor-glow"></div>
     <canvas id="particle-canvas"></canvas>
 
     <nav class="reveal-up">
@@ -371,22 +571,23 @@
         <ul class="nav-links">
             <li><a href="#features">Features</a></li>
             <li><a href="#download">Download</a></li>
-            <li><a href="#support">Support</a></li>
+            <li><a href="#faq">FAQ</a></li>
         </ul>
-        <a href="#download" class="btn">Download Launcher</a>
+        <a href="#download" class="btn">Get Started</a>
     </nav>
 
     <section class="hero">
         <div class="badge reveal-up">
-            <span class="badge-dot"></span> In Development
+            <span class="badge-dot"></span> v1.4 Public Beta Available
         </div>
         <h1 class="reveal-up" style="transition-delay: 0.1s;">Find your next world</h1>
         <p class="reveal-up" style="transition-delay: 0.2s;">
             Discover, install, and launch Minecraft instances from one dark, quiet surface with native Modrinth and CurseForge support.
         </p>
-        <a href="#download" class="btn reveal-up" style="transition-delay: 0.3s;" id="download">
-            Download for Windows
-        </a>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;" class="reveal-up" style="transition-delay: 0.3s;">
+            <a href="#download" class="btn" id="download">Download Launcher</a>
+            <a href="#features" class="btn btn-secondary">Explore Features</a>
+        </div>
         
         <div class="hero-image-container reveal-up" style="transition-delay: 0.4s;" id="tilt-container">
             <div class="hero-img-card" id="tilt-card">
@@ -426,6 +627,78 @@
         </div>
     </section>
 
+    <section id="download" class="download-section">
+        <h2 class="section-title reveal-up">Get Tidal Client</h2>
+        <p class="reveal-up" style="color: var(--text-muted); margin-top: -3rem; margin-bottom: 2rem;">Choose your operating system below to start your journey into streamlined Minecraft modding.</p>
+        
+        <div class="os-grid">
+            <div class="os-card reveal-up" style="transition-delay: 0.1s;">
+                <h3>Windows</h3>
+                <p>Windows 10 / 11 (64-bit)</p>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">Download .exe</a>
+            </div>
+            
+            <div class="os-card reveal-up" style="transition-delay: 0.2s;">
+                <h3>macOS</h3>
+                <p>Apple Silicon & Intel (macOS 12+)</p>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">Download .dmg</a>
+            </div>
+
+            <div class="os-card reveal-up" style="transition-delay: 0.3s;">
+                <h3>Linux</h3>
+                <p>AppImage / Flatpak / Debian</p>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">Download Linux</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <h2 class="section-title reveal-up">Frequently Asked Questions</h2>
+        <div class="faq-grid">
+            
+            <div class="faq-card reveal-up" style="transition-delay: 0.1s;">
+                <div class="faq-header" onclick="toggleFaq(this)">
+                    <h3>Is Tidal Client free to use?</h3>
+                    <button class="faq-toggle-btn" title="Toggle Question">−</button>
+                </div>
+                <div class="faq-content">
+                    <p>Yes! Tidal Client is 100% free and open-source, built by passionate community developers to provide the cleanest Minecraft launching experience.</p>
+                </div>
+            </div>
+
+            <div class="faq-card reveal-up" style="transition-delay: 0.2s;">
+                <div class="faq-header" onclick="toggleFaq(this)">
+                    <h3>Does it support mod repositories?</h3>
+                    <button class="faq-toggle-btn" title="Toggle Question">−</button>
+                </div>
+                <div class="faq-content">
+                    <p>Absolutely. You can search, install, and update mods, resource packs, and shaders directly from both major repositories inside the client interface.</p>
+                </div>
+            </div>
+
+            <div class="faq-card reveal-up" style="transition-delay: 0.3s;">
+                <div class="faq-header" onclick="toggleFaq(this)">
+                    <h3>Can I import my existing Minecraft instances?</h3>
+                    <button class="faq-toggle-btn" title="Toggle Question">−</button>
+                </div>
+                <div class="faq-content">
+                    <p>Tidal Client features a 1-click migration tool that can detect existing installations from standard launchers and import your worlds and configurations instantly.</p>
+                </div>
+            </div>
+
+            <div class="faq-card reveal-up" style="transition-delay: 0.4s;">
+                <div class="faq-header" onclick="toggleFaq(this)">
+                    <h3>Are JVM arguments customizable?</h3>
+                    <button class="faq-toggle-btn" title="Toggle Question">−</button>
+                </div>
+                <div class="faq-content">
+                    <p>Yes, you have full control over memory allocation, garbage collection parameters, and custom optimization arguments per instance.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
     <footer class="reveal-up">
         <p>&copy; 2026 Tidal Client. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
     </footer>
@@ -439,52 +712,26 @@
             }, 900);
         });
 
-        // Scroll Reveal Observer
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -50px 0px',
-            threshold: 0.15
-        };
+        // Glowing Cursor Follower
+        const cursorGlow = document.getElementById('cursor-glow');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let cursorX = mouseX;
+        let cursorY = mouseY;
 
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal-up').forEach(el => {
-            revealObserver.observe(el);
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        // Interactive 3D Tilt Effect on Hero Image Card
-        const tiltContainer = document.getElementById('tilt-container');
-        const tiltCard = document.getElementById('tilt-card');
-
-        tiltContainer.addEventListener('mousemove', (e) => {
-            const rect = tiltContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = -((y - centerY) / centerY) * 8;
-            const rotateY = ((x - centerX) / centerX) * 8;
-            
-            tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
-
-        tiltContainer.addEventListener('mouseleave', () => {
-            tiltCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-            tiltCard.style.transition = 'transform 0.5s ease-out';
-        });
-
-        tiltContainer.addEventListener('mouseenter', () => {
-            tiltCard.style.transition = 'none';
-        });
+        function updateCursor() {
+            cursorX += (mouseX - cursorX) * 0.12;
+            cursorY += (mouseY - cursorY) * 0.12;
+            cursorGlow.style.left = `${cursorX}px`;
+            cursorGlow.style.top = `${cursorY}px`;
+            requestAnimationFrame(updateCursor);
+        }
+        updateCursor();
 
         // Subtle Particle Canvas Background
         const canvas = document.getElementById('particle-canvas');
@@ -494,15 +741,15 @@
         let height = canvas.height = window.innerHeight;
 
         const particles = [];
-        const particleCount = 40;
+        const particleCount = 45;
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.size = Math.random() * 1.5 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.3;
-                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 1.8 + 0.6;
+                this.speedX = (Math.random() - 0.5) * 0.35;
+                this.speedY = (Math.random() - 0.5) * 0.35;
             }
             update() {
                 this.x += this.speedX;
@@ -513,7 +760,7 @@
                 if (this.y > height) this.y = 0;
             }
             draw() {
-                ctx.fillStyle = 'rgba(3, 73, 252, 0.25)';
+                ctx.fillStyle = 'rgba(3, 73, 252, 0.3)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -539,6 +786,88 @@
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
         });
+
+        // Scroll Reveal Observer Setup
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -40px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Interactive 3D Tilt Effect on Hero Image Card
+        const tiltContainer = document.getElementById('tilt-container');
+        const tiltCard = document.getElementById('tilt-card');
+
+        if (tiltContainer && tiltCard) {
+            tiltContainer.addEventListener('mousemove', (e) => {
+                const rect = tiltContainer.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = -((y - centerY) / centerY) * 12;
+                const rotateY = ((x - centerX) / centerX) * 12;
+                
+                tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+            });
+
+            tiltContainer.addEventListener('mouseleave', () => {
+                tiltCard.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+                tiltCard.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+            });
+
+            tiltContainer.addEventListener('mouseenter', () => {
+                tiltCard.style.transition = 'none';
+            });
+        }
+
+        // Feature cards interactive tilt
+        document.querySelectorAll('.feature-card, .os-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = -((y - centerY) / centerY) * 8;
+                const rotateY = ((x - centerX) / centerX) * 8;
+                card.style.transform = `translateY(-14px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0px) rotateX(0deg) rotateY(0deg) scale(1)';
+                card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+            });
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'none';
+            });
+        });
+
+        // FAQ Toggle Function for Temporary Hiding / Showing
+        function toggleFaq(headerElement) {
+            const card = headerElement.closest('.faq-card');
+            const btn = headerElement.querySelector('.faq-toggle-btn');
+            
+            card.classList.toggle('collapsed');
+            if (card.classList.contains('collapsed')) {
+                btn.textContent = '+';
+            } else {
+                btn.textContent = '−';
+            }
+        }
     </script>
 </body>
 </html>
