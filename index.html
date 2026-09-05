@@ -6,17 +6,17 @@
     <title>Tidal Client | Professional Minecraft Launcher</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-primary: #121212;
-            --bg-secondary: #18181b;
-            --bg-card: #1f1f23;
-            --accent: #0349fc;
-            --accent-hover: #2662ff;
+            --bg-primary: #09090b;
+            --bg-secondary: #121216;
+            --bg-card: #18181c;
+            --accent: #2563eb;
+            --accent-hover: #3b82f6;
             --text-main: #ffffff;
-            --text-muted: #a1a1aa;
+            --text-muted: #94a3b8;
             --border-color: #27272a;
         }
 
@@ -24,47 +24,84 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Press Start 2P', monospace !important;
+            letter-spacing: -0.5px;
         }
 
         body {
             background-color: var(--bg-primary);
             color: var(--text-main);
             overflow-x: hidden;
-            line-height: 1.6;
+            line-height: 1.8;
+            font-size: 11px;
+        }
+
+        /* Custom Sleek Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
         }
 
         #intro-loader {
             position: fixed;
             inset: 0;
-            background-color: var(--accent);
+            background: linear-gradient(135deg, #09090b 0%, #121216 100%);
             z-index: 99999;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            gap: 1rem;
-            transform: translateY(0);
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.4s ease 0.8s;
+            gap: 1.5rem;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
         }
 
-        #intro-loader.slide-up {
-            transform: translateY(-100%);
+        #intro-loader.fade-out {
             opacity: 0;
+            transform: scale(1.05);
+            visibility: hidden;
             pointer-events: none;
         }
 
         .loader-brand {
             color: white;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
             letter-spacing: -1px;
-            animation: pulseBrand 1.2s ease infinite alternate;
+            background: linear-gradient(135deg, #ffffff 30%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulseBrand 1.5s ease infinite alternate;
+            text-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
         }
 
         @keyframes pulseBrand {
-            0% { transform: scale(0.98); opacity: 0.9; }
-            100% { transform: scale(1.02); opacity: 1; }
+            0% { transform: scale(0.97); opacity: 0.85; }
+            100% { transform: scale(1.03); opacity: 1; }
+        }
+
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(37, 99, 235, 0.2);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         #particle-canvas {
@@ -74,7 +111,7 @@
             width: 100vw;
             height: 100vh;
             z-index: -1;
-            opacity: 0.3;
+            opacity: 0.4;
         }
 
         nav {
@@ -82,9 +119,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 1.2rem 5%;
-            background: rgba(18, 18, 18, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(9, 9, 11, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             position: fixed;
             width: 100%;
             top: 0;
@@ -93,17 +130,16 @@
         }
 
         .logo {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            letter-spacing: -0.5px;
         }
 
         .logo img {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             object-fit: contain;
             border-radius: 6px;
         }
@@ -122,7 +158,7 @@
             color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.75rem;
             transition: color 0.3s ease;
         }
 
@@ -133,15 +169,15 @@
         .btn {
             background-color: var(--accent);
             color: white;
-            padding: 0.6rem 1.4rem;
+            padding: 0.8rem 1.4rem;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.75rem;
             border: none;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 4px 20px rgba(3, 73, 252, 0.35);
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -150,7 +186,7 @@
         .btn:hover {
             background-color: var(--accent-hover);
             transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 10px 30px rgba(3, 73, 252, 0.6);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.6);
         }
 
         .btn-secondary {
@@ -180,11 +216,11 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.35rem 0.9rem;
-            background: rgba(3, 73, 252, 0.1);
-            border: 1px solid rgba(3, 73, 252, 0.3);
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
             border-radius: 50px;
-            font-size: 0.85rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--accent);
             margin-bottom: 1.5rem;
@@ -197,8 +233,8 @@
         }
 
         .badge-dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             background-color: var(--accent);
             border-radius: 50%;
             box-shadow: 0 0 12px var(--accent);
@@ -206,18 +242,17 @@
         }
 
         @keyframes pulse-dot {
-            0% { transform: scale(0.95); opacity: 0.7; box-shadow: 0 0 0 0 rgba(3, 73, 252, 0.6); }
-            70% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 0 8px rgba(3, 73, 252, 0); }
-            100% { transform: scale(0.95); opacity: 0.7; box-shadow: 0 0 0 0 rgba(3, 73, 252, 0); }
+            0% { transform: scale(0.95); opacity: 0.7; box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.6); }
+            70% { transform: scale(1.3); opacity: 1; box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+            100% { transform: scale(0.95); opacity: 0.7; box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
         }
 
         .hero h1 {
-            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-size: clamp(1.8rem, 4.5vw, 3rem);
             font-weight: 800;
-            margin-bottom: 1.2rem;
-            letter-spacing: -2px;
-            line-height: 1.05;
-            background: linear-gradient(135deg, #ffffff 30%, #a1a1aa 100%);
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: heroTitleIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -229,10 +264,11 @@
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             max-width: 680px;
             margin-bottom: 2.5rem;
+            line-height: 2;
             animation: heroTextIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
             opacity: 0;
         }
@@ -245,7 +281,7 @@
         .hero-image-container {
             width: 100%;
             max-width: 1050px;
-            height: 560px;
+            height: 520px;
             margin-top: 2rem;
             perspective: 1400px;
             animation: heroCardIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
@@ -267,15 +303,15 @@
             justify-content: center;
             align-items: center;
             color: var(--text-muted);
-            box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 40px rgba(3, 73, 252, 0.1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 40px rgba(37, 99, 235, 0.1);
             transition: transform 0.2s ease-out, border-color 0.4s ease, box-shadow 0.4s ease;
             transform-style: preserve-3d;
             overflow: hidden;
         }
 
         .hero-img-card:hover {
-            border-color: rgba(3, 73, 252, 0.6);
-            box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 60px rgba(3, 73, 252, 0.25);
+            border-color: rgba(37, 99, 235, 0.6);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 60px rgba(37, 99, 235, 0.25);
         }
 
         .hero-img-card img {
@@ -299,15 +335,15 @@
 
         .section-title {
             text-align: center;
-            font-size: 2.8rem;
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
             margin-bottom: 4.5rem;
             font-weight: 800;
-            letter-spacing: -1.5px;
+            letter-spacing: -1px;
         }
 
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
             max-width: 1200px;
             margin: 0 auto;
@@ -316,7 +352,7 @@
         .feature-card {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 3rem 2.5rem;
+            padding: 3rem 2.2rem;
             border-radius: 20px;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
@@ -338,8 +374,8 @@
 
         .feature-card:hover {
             transform: translateY(-16px) scale(1.03);
-            border-color: rgba(3, 73, 252, 0.7);
-            box-shadow: 0 35px 70px rgba(3, 73, 252, 0.3);
+            border-color: rgba(37, 99, 235, 0.7);
+            box-shadow: 0 35px 70px rgba(37, 99, 235, 0.3);
         }
 
         .feature-card:hover::before {
@@ -347,41 +383,34 @@
         }
 
         .feature-icon-box {
-            width: 64px;
-            height: 64px;
-            background-color: rgba(3, 73, 252, 0.1);
-            border: 1px solid rgba(3, 73, 252, 0.25);
+            width: 56px;
+            height: 56px;
+            background-color: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.25);
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 16px;
+            border-radius: 14px;
             margin-bottom: 1.8rem;
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .feature-card:hover .feature-icon-box {
             transform: scale(1.2) rotate(10deg);
-            background-color: rgba(3, 73, 252, 0.25);
-            box-shadow: 0 10px 25px rgba(3, 73, 252, 0.4);
-        }
-
-        .feature-icon-box img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
+            background-color: rgba(37, 99, 235, 0.25);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
         }
 
         .feature-card h3 {
-            font-size: 1.35rem;
-            margin-bottom: 0.85rem;
-            letter-spacing: -0.5px;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
             font-weight: 700;
         }
 
         .feature-card p {
             color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 0.75rem;
+            line-height: 2;
         }
 
         .download-section {
@@ -414,18 +443,18 @@
 
         .os-card:hover {
             transform: translateY(-12px) scale(1.03);
-            border-color: rgba(3, 73, 252, 0.6);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 30px rgba(3, 73, 252, 0.2);
+            border-color: rgba(37, 99, 235, 0.6);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 30px rgba(37, 99, 235, 0.2);
         }
 
         .os-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.05rem;
             font-weight: 700;
         }
 
         .os-card p {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.7rem;
             margin-bottom: 0.5rem;
         }
 
@@ -453,7 +482,7 @@
         }
 
         .faq-card:hover {
-            border-color: rgba(3, 73, 252, 0.5);
+            border-color: rgba(37, 99, 235, 0.5);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             transform: translateY(-4px);
         }
@@ -464,27 +493,28 @@
             align-items: center;
             cursor: pointer;
             user-select: none;
+            gap: 1rem;
         }
 
         .faq-card h3 {
-            font-size: 1.25rem;
+            font-size: 0.85rem;
             color: var(--text-main);
             font-weight: 600;
-            letter-spacing: -0.3px;
+            line-height: 1.6;
         }
 
         .faq-toggle-btn {
-            background: rgba(3, 73, 252, 0.1);
-            border: 1px solid rgba(3, 73, 252, 0.3);
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid rgba(37, 99, 235, 0.3);
             color: var(--accent);
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             font-weight: 700;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             flex-shrink: 0;
@@ -494,24 +524,23 @@
             background: var(--accent);
             color: white;
             transform: scale(1.15) rotate(90deg);
-            box-shadow: 0 0 15px rgba(3, 73, 252, 0.6);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.6);
         }
 
         .faq-content {
-            max-height: 200px;
+            max-height: 250px;
             opacity: 1;
             overflow: hidden;
             transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, margin-top 0.4s ease;
-            margin-top: 1rem;
+            margin-top: 1.2rem;
         }
 
         .faq-content p {
             color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 0.75rem;
+            line-height: 2;
         }
 
-        /* Collapsed State for FAQ */
         .faq-card.collapsed .faq-content {
             max-height: 0;
             opacity: 0;
@@ -530,96 +559,84 @@
             transform: translateY(0);
         }
 
-        /* Glowing Cursor Follower Effect */
-        #cursor-glow {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(3, 73, 252, 0.18) 0%, rgba(3, 73, 252, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            z-index: 2;
-            transition: opacity 0.3s ease;
-            opacity: 0.85;
-        }
-
         footer {
             text-align: center;
             padding: 3.5rem 5%;
             border-top: 1px solid var(--border-color);
             color: var(--text-muted);
             background-color: var(--bg-secondary);
-            font-size: 0.95rem;
+            font-size: 0.7rem;
+            line-height: 2;
         }
     </style>
 </head>
 <body>
 
     <div id="intro-loader">
-        <div class="loader-brand">Tidal Client</div>
+        <div class="loader-brand">TIDAL CLIENT</div>
+        <div class="loader-spinner"></div>
     </div>
 
     <canvas id="particle-canvas"></canvas>
 
     <nav class="reveal-up">
         <div class="logo">
-            <img src="images/tidal-logo.png" alt="Tidal Client Logo" onerror="this.onerror=null; this.src='https://placehold.co/32x32/0349fc/ffffff?text=T';">
-            Tidal Client
+            <img src="images/tidal-logo.png" alt="Tidal Client Logo" onerror="this.onerror=null; this.src='https://placehold.co/32x32/2563eb/ffffff?text=T';">
+            TIDAL CLIENT
         </div>
         <ul class="nav-links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#download">Download</a></li>
+            <li><a href="#features">FEATURES</a></li>
+            <li><a href="#download">DOWNLOAD</a></li>
             <li><a href="#faq">FAQ</a></li>
         </ul>
-        <a href="#download" class="btn">Get Started</a>
+        <a href="#download" class="btn">GET STARTED</a>
     </nav>
 
     <section class="hero">
         <div class="badge reveal-up">
             <span class="badge-dot"></span> This Launcher is being developed.
         </div>
-        <h1 class="reveal-up" style="transition-delay: 0.1s;">Find your next world</h1>
+        <h1 class="reveal-up" style="transition-delay: 0.1s;">FIND YOUR NEXT WORLD</h1>
         <p class="reveal-up" style="transition-delay: 0.2s;">
             Discover, install, and launch Minecraft instances from one dark, quiet surface with native Modrinth and CurseForge support.
         </p>
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;" class="reveal-up" style="transition-delay: 0.3s;">
-            <a href="#download" class="btn" id="download">Download Launcher</a>
-            <a href="#features" class="btn btn-secondary">Explore Features</a>
+            <a href="#download" class="btn" id="download">DOWNLOAD LAUNCHER</a>
+            <a href="#features" class="btn btn-secondary">EXPLORE FEATURES</a>
         </div>
         
         <div class="hero-image-container reveal-up" style="transition-delay: 0.4s;" id="tilt-container">
             <div class="hero-img-card" id="tilt-card">
-                <img src="images/tidal-launcher-screenshot.png" alt="Tidal Client UI Preview" onerror="this.parentElement.innerHTML='<span style=\'color: var(--text-muted); font-size: 0.95rem;\'>[ Place tidal-launcher-screenshot.png in images/ folder ]</span>';">
+                <img src="images/tidal-launcher-screenshot.png" alt="Tidal Client UI Preview" onerror="this.parentElement.innerHTML='<span style=\'color: var(--text-muted); font-size: 0.75rem;\'>[ PLACE tidal-launcher-screenshot.png IN images/ FOLDER ]</span>';">
             </div>
         </div>
     </section>
 
     <section id="features" class="features">
-        <h2 class="section-title reveal-up">Engineered for Excellence</h2>
+        <h2 class="section-title reveal-up">ENGINEERED FOR EXCELLENCE</h2>
         <div class="feature-grid">
             
             <div class="feature-card reveal-up" style="transition-delay: 0.1s;">
                 <div class="feature-icon-box">
-                    <img src="images/share-icon.png" alt="Sharing Icon" onerror="this.style.display='none';">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
                 </div>
-                <h3>Instance & Mod Sharing</h3>
+                <h3>INSTANCE & MOD SHARING</h3>
                 <p>Easily package, export, and share your customized modpacks and game instances with friends instantly.</p>
             </div>
 
             <div class="feature-card reveal-up" style="transition-delay: 0.2s;">
                 <div class="feature-icon-box">
-                    <img src="images/optimization-icon.png" alt="Optimization Icon" onerror="this.style.display='none';">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
-                <h3>Maximum Optimization</h3>
+                <h3>MAXIMUM OPTIMIZATION</h3>
                 <p>Advanced JVM flags, low-overhead resource management, and custom rendering tweaks for ultimate frame rates.</p>
             </div>
 
             <div class="feature-card reveal-up" style="transition-delay: 0.3s;">
                 <div class="feature-icon-box">
-                    <img src="images/festive-icon.png" alt="Festive Icon" onerror="this.style.display='none';">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707"></path></svg>
                 </div>
-                <h3>Festive Themes</h3>
+                <h3>FESTIVE THEMES</h3>
                 <p>Immerse yourself in dynamically updating seasonal and holiday themes that adapt to the time of year.</p>
             </div>
 
@@ -627,37 +644,37 @@
     </section>
 
     <section id="download" class="download-section">
-        <h2 class="section-title reveal-up">Get Tidal Client</h2>
-        <p class="reveal-up" style="color: var(--text-muted); margin-top: -3rem; margin-bottom: 2rem;">Choose your operating system below to start your journey into streamlined Minecraft modding.</p>
+        <h2 class="section-title reveal-up">GET TIDAL CLIENT</h2>
+        <p class="reveal-up" style="color: var(--text-muted); margin-top: -2rem; margin-bottom: 2rem;">Choose your operating system below to start your journey into streamlined Minecraft modding.</p>
         
         <div class="os-grid">
             <div class="os-card reveal-up" style="transition-delay: 0.1s;">
-                <h3>Windows</h3>
+                <h3>WINDOWS</h3>
                 <p>Windows 10 / 11 (64-bit)</p>
-                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">Download .exe</a>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">DOWNLOAD .EXE</a>
             </div>
             
             <div class="os-card reveal-up" style="transition-delay: 0.2s;">
-                <h3>macOS</h3>
+                <h3>MACOS</h3>
                 <p>Apple Silicon & Intel (macOS 12+)</p>
-                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">Download .dmg</a>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">DOWNLOAD .DMG</a>
             </div>
 
             <div class="os-card reveal-up" style="transition-delay: 0.3s;">
-                <h3>Linux</h3>
+                <h3>LINUX</h3>
                 <p>AppImage / Flatpak / Debian</p>
-                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">Download Linux</a>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">DOWNLOAD LINUX</a>
             </div>
         </div>
     </section>
 
     <section id="faq" class="faq-section">
-        <h2 class="section-title reveal-up">Frequently Asked Questions</h2>
+        <h2 class="section-title reveal-up">FREQUENTLY ASKED QUESTIONS</h2>
         <div class="faq-grid">
             
             <div class="faq-card reveal-up" style="transition-delay: 0.1s;">
                 <div class="faq-header" onclick="toggleFaq(this)">
-                    <h3>Is Tidal Client free to use?</h3>
+                    <h3>IS TIDAL CLIENT FREE TO USE?</h3>
                     <button class="faq-toggle-btn" title="Toggle Question">−</button>
                 </div>
                 <div class="faq-content">
@@ -667,7 +684,7 @@
 
             <div class="faq-card reveal-up" style="transition-delay: 0.2s;">
                 <div class="faq-header" onclick="toggleFaq(this)">
-                    <h3>Does it support mod repositories?</h3>
+                    <h3>DOES IT SUPPORT MOD REPOSITORIES?</h3>
                     <button class="faq-toggle-btn" title="Toggle Question">−</button>
                 </div>
                 <div class="faq-content">
@@ -677,7 +694,7 @@
 
             <div class="faq-card reveal-up" style="transition-delay: 0.3s;">
                 <div class="faq-header" onclick="toggleFaq(this)">
-                    <h3>Can I import my existing Minecraft instances?</h3>
+                    <h3>CAN I IMPORT EXISTING MINECRAFT INSTANCES?</h3>
                     <button class="faq-toggle-btn" title="Toggle Question">−</button>
                 </div>
                 <div class="faq-content">
@@ -687,7 +704,7 @@
 
             <div class="faq-card reveal-up" style="transition-delay: 0.4s;">
                 <div class="faq-header" onclick="toggleFaq(this)">
-                    <h3>Are JVM arguments customizable?</h3>
+                    <h3>ARE JVM ARGUMENTS CUSTOMIZABLE?</h3>
                     <button class="faq-toggle-btn" title="Toggle Question">−</button>
                 </div>
                 <div class="faq-content">
@@ -699,16 +716,16 @@
     </section>
 
     <footer class="reveal-up">
-        <p>&copy; 2026 Tidal Client. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+        <p>&copy; 2026 TIDAL CLIENT. NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</p>
     </footer>
 
     <script>
-        // Solid accent intro loader slide-up
+        // Smooth cinematic intro loader
         window.addEventListener('load', () => {
             const loader = document.getElementById('intro-loader');
             setTimeout(() => {
-                loader.classList.add('slide-up');
-            }, 900);
+                loader.classList.add('fade-out');
+            }, 1000);
         });
 
         // Mouse tracking for interactive particle field
@@ -720,7 +737,6 @@
             mouseY = e.clientY;
         });
 
-        // Interactive Particle Canvas Background with Mouse Attraction
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         
@@ -728,28 +744,27 @@
         let height = canvas.height = window.innerHeight;
 
         const particles = [];
-        const particleCount = 65;
+        const particleCount = 70;
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.size = Math.random() * 2 + 0.8;
-                this.baseSpeedX = (Math.random() - 0.5) * 0.6;
-                this.baseSpeedY = (Math.random() - 0.5) * 0.6;
+                this.size = Math.random() * 2 + 1;
+                this.baseSpeedX = (Math.random() - 0.5) * 0.5;
+                this.baseSpeedY = (Math.random() - 0.5) * 0.5;
                 this.speedX = this.baseSpeedX;
                 this.speedY = this.baseSpeedY;
             }
             update() {
-                // Calculate distance to mouse for subtle gravitational pull
                 const dx = mouseX - this.x;
                 const dy = mouseY - this.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 
-                if (dist < 200) {
-                    const force = (200 - dist) / 200;
-                    this.speedX += (dx / dist) * force * 0.08;
-                    this.speedY += (dy / dist) * force * 0.08;
+                if (dist < 220) {
+                    const force = (220 - dist) / 220;
+                    this.speedX += (dx / dist) * force * 0.1;
+                    this.speedY += (dy / dist) * force * 0.1;
                 } else {
                     this.speedX += (this.baseSpeedX - this.speedX) * 0.05;
                     this.speedY += (this.baseSpeedY - this.speedY) * 0.05;
@@ -764,7 +779,7 @@
                 if (this.y > height) this.y = 0;
             }
             draw() {
-                ctx.fillStyle = 'rgba(3, 73, 252, 0.45)';
+                ctx.fillStyle = 'rgba(37, 99, 235, 0.5)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -778,14 +793,13 @@
         function animateParticles() {
             ctx.clearRect(0, 0, width, height);
             
-            // Draw connecting lines between close particles for extra high-tech feel
             for (let i = 0; i < particles.length; i++) {
                 for (let j = i + 1; j < particles.length; j++) {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 110) {
-                        ctx.strokeStyle = `rgba(3, 73, 252, ${0.15 * (1 - dist / 110)})`;
+                    if (dist < 120) {
+                        ctx.strokeStyle = `rgba(37, 99, 235, ${0.18 * (1 - dist / 120)})`;
                         ctx.lineWidth = 0.8;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
@@ -809,7 +823,7 @@
             height = canvas.height = window.innerHeight;
         });
 
-        // Scroll Reveal Observer Setup
+        // Scroll Reveal Observer
         const observerOptions = {
             threshold: 0.1,
             rootMargin: "0px 0px -40px 0px"
@@ -828,7 +842,7 @@
             observer.observe(el);
         });
 
-        // Interactive 3D Tilt Effect on Hero Image Card (Intensified)
+        // Intense 3D Tilt Effect on Hero Image Card
         const tiltContainer = document.getElementById('tilt-container');
         const tiltCard = document.getElementById('tilt-card');
 
@@ -841,8 +855,8 @@
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                const rotateX = -((y - centerY) / centerY) * 20;
-                const rotateY = ((x - centerX) / centerX) * 20;
+                const rotateX = -((y - centerY) / centerY) * 22;
+                const rotateY = ((x - centerX) / centerX) * 22;
                 
                 tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.06, 1.06, 1.06)`;
             });
@@ -857,7 +871,7 @@
             });
         }
 
-        // Feature cards & os cards intense interactive tilt
+        // Feature and OS cards intense tilt
         document.querySelectorAll('.feature-card, .os-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -865,9 +879,9 @@
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = -((y - centerY) / centerY) * 14;
-                const rotateY = ((x - centerX) / centerX) * 14;
-                card.style.transform = `translateY(-20px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.06)`;
+                const rotateX = -((y - centerY) / centerY) * 15;
+                const rotateY = ((x - centerX) / centerX) * 15;
+                card.style.transform = `translateY(-20px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'translateY(0px) rotateX(0deg) rotateY(0deg) scale(1)';
@@ -878,7 +892,7 @@
             });
         });
 
-        // FAQ Toggle Function for Temporary Hiding / Showing
+        // FAQ Toggle Function with smooth animations
         function toggleFaq(headerElement) {
             const card = headerElement.closest('.faq-card');
             const btn = headerElement.querySelector('.faq-toggle-btn');
