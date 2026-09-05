@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tidal Client</title>
+    <title>Tidal Client | Professional Minecraft Launcher</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -560,12 +560,11 @@
         <div class="loader-brand">Tidal Client</div>
     </div>
 
-    <div id="cursor-glow"></div>
     <canvas id="particle-canvas"></canvas>
 
     <nav class="reveal-up">
         <div class="logo">
-            <img src="images/tidal-logo.png" alt="Tidal Client Logo" onerror="this.style.display='none';">
+            <img src="images/tidal-logo.png" alt="Tidal Client Logo" onerror="this.onerror=null; this.src='https://placehold.co/32x32/0349fc/ffffff?text=T';">
             Tidal Client
         </div>
         <ul class="nav-links">
@@ -578,7 +577,7 @@
 
     <section class="hero">
         <div class="badge reveal-up">
-            <span class="badge-dot"></span> v1.4 Public Beta Available
+            <span class="badge-dot"></span> This Launcher is being developed.
         </div>
         <h1 class="reveal-up" style="transition-delay: 0.1s;">Find your next world</h1>
         <p class="reveal-up" style="transition-delay: 0.2s;">
@@ -712,28 +711,16 @@
             }, 900);
         });
 
-        // Glowing Cursor Follower
-        const cursorGlow = document.getElementById('cursor-glow');
+        // Mouse tracking for interactive particle field
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
-        let cursorX = mouseX;
-        let cursorY = mouseY;
 
         window.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
         });
 
-        function updateCursor() {
-            cursorX += (mouseX - cursorX) * 0.12;
-            cursorY += (mouseY - cursorY) * 0.12;
-            cursorGlow.style.left = `${cursorX}px`;
-            cursorGlow.style.top = `${cursorY}px`;
-            requestAnimationFrame(updateCursor);
-        }
-        updateCursor();
-
-        // Subtle Particle Canvas Background
+        // Interactive Particle Canvas Background with Mouse Attraction
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         
@@ -741,26 +728,43 @@
         let height = canvas.height = window.innerHeight;
 
         const particles = [];
-        const particleCount = 45;
+        const particleCount = 65;
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.size = Math.random() * 1.8 + 0.6;
-                this.speedX = (Math.random() - 0.5) * 0.35;
-                this.speedY = (Math.random() - 0.5) * 0.35;
+                this.size = Math.random() * 2 + 0.8;
+                this.baseSpeedX = (Math.random() - 0.5) * 0.6;
+                this.baseSpeedY = (Math.random() - 0.5) * 0.6;
+                this.speedX = this.baseSpeedX;
+                this.speedY = this.baseSpeedY;
             }
             update() {
+                // Calculate distance to mouse for subtle gravitational pull
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist < 200) {
+                    const force = (200 - dist) / 200;
+                    this.speedX += (dx / dist) * force * 0.08;
+                    this.speedY += (dy / dist) * force * 0.08;
+                } else {
+                    this.speedX += (this.baseSpeedX - this.speedX) * 0.05;
+                    this.speedY += (this.baseSpeedY - this.speedY) * 0.05;
+                }
+
                 this.x += this.speedX;
                 this.y += this.speedY;
+
                 if (this.x < 0) this.x = width;
                 if (this.x > width) this.x = 0;
                 if (this.y < 0) this.y = height;
                 if (this.y > height) this.y = 0;
             }
             draw() {
-                ctx.fillStyle = 'rgba(3, 73, 252, 0.3)';
+                ctx.fillStyle = 'rgba(3, 73, 252, 0.45)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -773,6 +777,24 @@
 
         function animateParticles() {
             ctx.clearRect(0, 0, width, height);
+            
+            // Draw connecting lines between close particles for extra high-tech feel
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 110) {
+                        ctx.strokeStyle = `rgba(3, 73, 252, ${0.15 * (1 - dist / 110)})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
             particles.forEach(p => {
                 p.update();
                 p.draw();
@@ -806,7 +828,7 @@
             observer.observe(el);
         });
 
-        // Interactive 3D Tilt Effect on Hero Image Card
+        // Interactive 3D Tilt Effect on Hero Image Card (Intensified)
         const tiltContainer = document.getElementById('tilt-container');
         const tiltCard = document.getElementById('tilt-card');
 
@@ -819,10 +841,10 @@
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                const rotateX = -((y - centerY) / centerY) * 12;
-                const rotateY = ((x - centerX) / centerX) * 12;
+                const rotateX = -((y - centerY) / centerY) * 20;
+                const rotateY = ((x - centerX) / centerX) * 20;
                 
-                tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+                tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.06, 1.06, 1.06)`;
             });
 
             tiltContainer.addEventListener('mouseleave', () => {
@@ -835,7 +857,7 @@
             });
         }
 
-        // Feature cards interactive tilt
+        // Feature cards & os cards intense interactive tilt
         document.querySelectorAll('.feature-card, .os-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -843,9 +865,9 @@
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = -((y - centerY) / centerY) * 8;
-                const rotateY = ((x - centerX) / centerX) * 8;
-                card.style.transform = `translateY(-14px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+                const rotateX = -((y - centerY) / centerY) * 14;
+                const rotateY = ((x - centerX) / centerX) * 14;
+                card.style.transform = `translateY(-20px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.06)`;
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'translateY(0px) rotateX(0deg) rotateY(0deg) scale(1)';
