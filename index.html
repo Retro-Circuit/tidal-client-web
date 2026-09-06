@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tidal Client - Find Your Next World</title>
-    <link rel="icon" type="image/png" href="./images/favicon.png">
+    <title>Tidal Client</title>
+    <link rel="icon" type="image/png" href="./favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -209,11 +209,11 @@
             line-height: 1.6;
         }
 
-        /* Big Hero Image Container */
+        /* Big Hero Image Container - Much Larger Preview */
         .hero-image-container {
             margin-top: 4rem;
             width: 100%;
-            max-width: 1300px;
+            max-width: 1500px;
             perspective: 1400px;
         }
 
@@ -230,50 +230,10 @@
         .hero-img-card img {
             width: 100%;
             height: auto;
-            max-height: 700px;
+            max-height: 850px;
             object-fit: cover;
             border-radius: 20px;
             display: block;
-        }
-
-        /* Stats Counter Section */
-        .stats-section {
-            padding: 4rem 6%;
-            position: relative;
-            z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 3rem 2rem;
-            backdrop-filter: blur(12px);
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: clamp(2.2rem, 3.5vw, 3rem);
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 0.5rem;
-            letter-spacing: -1px;
-            text-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
-        }
-
-        .stat-label {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
         /* Features Section */
@@ -513,7 +473,7 @@
         
         <div class="hero-image-container reveal-up" style="transition-delay: 0.4s;" id="tilt-container">
             <div class="hero-img-card" id="tilt-card">
-                <img src="images/tidal-launcher-screenshot.png" alt="Tidal Client UI Preview" onerror="this.parentElement.innerHTML='<div style=\'height: 450px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.875rem; text-align: center; padding: 2rem;\'>[ PLACE tidal-launcher-screenshot.png IN images/ FOLDER OR PREVIEW UI ]</div>';">
+                <img src="images/tidal-launcher-screenshot.png" alt="Tidal Client UI Preview" onerror="this.parentElement.innerHTML='<div style=\'height: 600px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 1rem; text-align: center; padding: 2rem;\'>[ PLACE tidal-launcher-screenshot.png IN images/ FOLDER OR PREVIEW UI ]</div>';">
             </div>
         </div>
     </section>
@@ -544,22 +504,6 @@
                 </div>
                 <h3>FESTIVE THEMES</h3>
                 <p>Immerse yourself in dynamically updating seasonal and holiday themes that adapt to the time of year.</p>
-            </div>
-
-            <div class="feature-card reveal-up" style="transition-delay: 0.4s;">
-                <div class="feature-icon-box">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                </div>
-                <h3>ACCOUNT SECURITY</h3>
-                <p>Official Microsoft OAuth authentication ensures your credentials remain completely secure and private on your local machine.</p>
-            </div>
-
-            <div class="feature-card reveal-up" style="transition-delay: 0.5s;">
-                <div class="feature-icon-box">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                </div>
-                <h3>AUTO BACKUPS</h3>
-                <p>Never lose your hard-earned progress again with automated, compressed cloud or local world backups before every major update.</p>
             </div>
 
         </div>
@@ -600,7 +544,7 @@
                     <button class="faq-toggle-btn" title="Toggle Question">−</button>
                 </div>
                 <div class="faq-content">
-                    <p>Yes! Tidal Client is 100% free and open-source, built by passionate community developers to provide the cleanest Minecraft launching experience.</p>
+                    <p>Yes! Tidal Client is 100% free and built by a solo developer to provide the cleanest Minecraft launching experience.</p>
                 </div>
             </div>
 
@@ -631,26 +575,6 @@
                 </div>
                 <div class="faq-content">
                     <p>Yes, you have full control over memory allocation, garbage collection parameters, and custom optimization arguments per instance.</p>
-                </div>
-            </div>
-
-            <div class="faq-card reveal-up" style="transition-delay: 0.5s;">
-                <div class="faq-header" onclick="toggleFaq(this)">
-                    <h3>IS MY MICROSOFT ACCOUNT SECURE?</h3>
-                    <button class="faq-toggle-btn" title="Toggle Question">−</button>
-                </div>
-                <div class="faq-content">
-                    <p>Tidal Client uses official Microsoft authorization endpoints. Your password is never seen or stored by us; authentication is handled entirely through Microsoft's secure OAuth flow.</p>
-                </div>
-            </div>
-
-            <div class="faq-card reveal-up" style="transition-delay: 0.6s;">
-                <div class="faq-header" onclick="toggleFaq(this)">
-                    <h3>HOW CAN I CONTACT OR SUPPORT DEVELOPMENT?</h3>
-                    <button class="faq-toggle-btn" title="Toggle Question">−</button>
-                </div>
-                <div class="faq-content">
-                    <p>You can join our community Discord server to follow development progress, share feedback, and chat with other players directly!</p>
                 </div>
             </div>
 
