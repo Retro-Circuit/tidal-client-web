@@ -196,7 +196,7 @@
             line-height: 1.1;
             letter-spacing: -2px;
             margin-bottom: 1.5rem;
-            background: linear-gradient(to bottom, #fff 30%, #94a3b8 100%);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -462,7 +462,7 @@
         <div class="badge reveal-up">
             <span class="badge-dot"></span> Now in Closed Beta!
         </div>
-        <h1 class="reveal-up" style="transition-delay: 0.1s;">FIND YOUR NEXT WORLD</h1>
+        <h1 class="reveal-up" style="transition-delay: 0.1s;">TIDAL CLIENT</h1>
         <p class="reveal-up" style="transition-delay: 0.2s;">
             Discover, install, and launch Minecraft instances from one dark, quiet surface with native Modrinth and CurseForge support.
         </p>
@@ -609,8 +609,9 @@
         function animateWave() {
             if (animationComplete) return;
 
-            waveProgress += 0.015; 
-            waveTime += 0.1;
+            // Slower progress step for an even longer, more graceful intro animation
+            waveProgress += 0.0055; 
+            waveTime += 0.06;
 
             introCtx.clearRect(0, 0, waveW, waveH);
 
@@ -631,7 +632,8 @@
             introCtx.fill();
 
             if (currentX > waveW * 1.3) {
-                loaderOpacity -= 0.04;
+                // Slower opacity fade out for smooth transition
+                loaderOpacity -= 0.025;
                 loader.style.opacity = Math.max(0, loaderOpacity);
                 
                 if (loaderOpacity <= 0) {
