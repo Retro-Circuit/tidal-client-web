@@ -1,73 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tidal Client</title>
-    
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" href="/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <style>
         :root {
-            --bg-primary: #090a0f;
-            --bg-secondary: #12151f;
-            --bg-card: rgba(18, 21, 31, 0.7);
-            --accent: #2563eb;
-            --accent-glow: rgba(37, 99, 235, 0.4);
+            --bg-main: #060913;
+            --bg-card: rgba(13, 20, 38, 0.7);
+            --border-color: rgba(37, 99, 235, 0.25);
+            --border-hover: rgba(37, 99, 235, 0.6);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-blue: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.4);
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
             scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-primary);
+            background-color: var(--bg-main);
             color: var(--text-main);
             overflow-x: hidden;
-            line-height: 1.6;
+            position: relative;
         }
 
-        /* Prevent scrolling while loader is active */
-        body.loading {
-            overflow: hidden;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-primary); }
-        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #1d4ed8; }
-
-        /* Cartoon Wave Intro Loader */
+        /* Intro Loader with Cartoon Wave Sweep */
         #intro-loader {
             position: fixed;
             inset: 0;
-            z-index: 99999;
-            background-color: #050608;
+            background-color: #030712;
+            z-index: 9999;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            overflow: hidden;
-            transition: opacity 0.6s ease;
+            justify-content: center;
+            transition: opacity 0.5s ease;
         }
 
         .wave-container {
             position: absolute;
             inset: 0;
-            width: 100%;
-            height: 100%;
             pointer-events: none;
         }
 
@@ -75,222 +58,171 @@
             display: block;
             width: 100%;
             height: 100%;
-            position: absolute;
-            inset: 0;
         }
 
-        .loader-brand-wrapper {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            animation: brandFade 1.2s ease forwards;
-        }
-
-        .loader-brand {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 1.5rem;
-            color: #fff;
-            letter-spacing: 2px;
-            text-shadow: 0 0 25px var(--accent);
-            margin-bottom: 1rem;
-        }
-
-        .loader-spinner {
-            width: 36px;
-            height: 36px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top: 3px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        @keyframes brandFade {
-            0% { opacity: 0; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1); }
-            100% { opacity: 0; transform: scale(1.1); }
-        }
-
-        /* Particle Background Canvas */
+        /* Particle Canvas background */
         #particle-canvas {
             position: fixed;
             inset: 0;
-            z-index: 1;
+            z-index: 0;
             pointer-events: none;
         }
 
-        /* Scroll Reveal Animation Styles */
-        .reveal-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .reveal-up.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Navbar */
+        /* Navigation Bar */
         nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1.25rem 6%;
-            background: rgba(9, 10, 15, 0.85);
+            background: rgba(6, 9, 19, 0.8);
             backdrop-filter: blur(16px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
             border-bottom: 1px solid var(--border-color);
+            z-index: 100;
         }
 
         .logo {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            color: var(--text-main);
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             letter-spacing: -0.5px;
+            color: #fff;
         }
 
         .logo img {
             width: 32px;
             height: 32px;
-            object-fit: contain;
-            border-radius: 6px;
+            border-radius: 8px;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
         }
 
         .nav-links a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.875rem;
             font-weight: 600;
-            transition: color 0.3s ease;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
         }
 
         .nav-links a:hover {
-            color: var(--text-main);
+            color: #fff;
         }
 
         /* Buttons */
         .btn {
-            background-color: var(--accent);
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: #fff;
-            padding: 0.75rem 1.5rem;
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 700;
+            padding: 0.75rem 1.75rem;
             border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            box-shadow: 0 4px 20px var(--accent-glow);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(37, 99, 235, 0.6);
-            background-color: #1d4ed8;
+            box-shadow: 0 15px 35px rgba(37, 99, 235, 0.6);
         }
 
         .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
             box-shadow: none;
-            border-color: var(--border-color);
         }
 
         .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            box-shadow: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--border-hover);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
 
         /* Hero Section */
         .hero {
-            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            padding: 10rem 6% 6rem 6%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 9rem 6% 5rem 6%;
-            position: relative;
-            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.375rem 1rem;
             background: rgba(37, 99, 235, 0.1);
-            border: 1px solid rgba(37, 99, 235, 0.3);
-            border-radius: 9999px;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #60a5fa;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .badge-dot {
             width: 6px;
             height: 6px;
-            background-color: var(--accent);
+            background-color: #3b82f6;
             border-radius: 50%;
-            box-shadow: 0 0 8px var(--accent);
+            box-shadow: 0 0 10px #3b82f6;
         }
 
         .hero h1 {
-            font-size: clamp(2.2rem, 5vw, 4.2rem);
+            font-size: clamp(2.5rem, 6vw, 5rem);
             font-weight: 800;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1.5px;
             line-height: 1.1;
-            max-width: 900px;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to bottom, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero p {
-            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            font-size: clamp(1rem, 1.5vw, 1.25rem);
             color: var(--text-muted);
-            max-width: 680px;
+            max-width: 700px;
             margin-bottom: 2.5rem;
-            font-weight: 400;
+            line-height: 1.6;
         }
 
-        /* Hero Image 3D Tilt Card */
+        /* Big Hero Image Container */
         .hero-image-container {
             margin-top: 4rem;
             width: 100%;
-            max-width: 1000px;
-            perspective: 1200px;
+            max-width: 1300px;
+            perspective: 1400px;
         }
 
         .hero-img-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 1rem;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(37, 99, 235, 0.1);
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.7), 0 0 80px rgba(37, 99, 235, 0.2);
             transition: transform 0.1s ease-out;
             transform-style: preserve-3d;
         }
@@ -298,52 +230,95 @@
         .hero-img-card img {
             width: 100%;
             height: auto;
-            border-radius: 12px;
+            max-height: 700px;
+            object-fit: cover;
+            border-radius: 20px;
             display: block;
+        }
+
+        /* Stats Counter Section */
+        .stats-section {
+            padding: 4rem 6%;
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            backdrop-filter: blur(12px);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: clamp(2.2rem, 3.5vw, 3rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            text-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* Features Section */
         .features {
-            padding: 7rem 6%;
+            padding: 6rem 6%;
             position: relative;
             z-index: 2;
+            max-width: 1300px;
+            margin: 0 auto;
         }
 
         .section-title {
             text-align: center;
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
             font-weight: 800;
-            margin-bottom: 4rem;
             letter-spacing: -1px;
+            margin-bottom: 4rem;
         }
 
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         .feature-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2.5rem 2rem;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(12px);
             transform-style: preserve-3d;
         }
 
         .feature-card:hover {
-            border-color: rgba(37, 99, 235, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
         }
 
         .feature-icon-box {
             width: 50px;
             height: 50px;
-            background: rgba(37, 99, 235, 0.1);
-            border: 1px solid rgba(37, 99, 235, 0.2);
+            background: rgba(37, 99, 235, 0.15);
+            border: 1px solid var(--border-color);
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -353,23 +328,24 @@
         }
 
         .feature-card h3 {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
-            letter-spacing: -0.5px;
         }
 
         .feature-card p {
             color: var(--text-muted);
             font-size: 0.95rem;
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
         /* Download Section */
         .download-section {
-            padding: 7rem 6%;
+            padding: 6rem 6%;
             position: relative;
             z-index: 2;
+            max-width: 1300px;
+            margin: 0 auto;
             text-align: center;
         }
 
@@ -377,26 +353,22 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            max-width: 1000px;
-            margin: 3rem auto 0 auto;
+            margin-top: 3rem;
         }
 
         .os-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 2.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s;
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             transform-style: preserve-3d;
         }
 
         .os-card:hover {
-            border-color: rgba(37, 99, 235, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
         }
 
         .os-card h3 {
@@ -413,10 +385,10 @@
 
         /* FAQ Section */
         .faq-section {
-            padding: 7rem 6%;
+            padding: 6rem 6%;
             position: relative;
             z-index: 2;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -429,94 +401,85 @@
         .faq-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: border-color 0.3s;
-        }
-
-        .faq-card:hover {
-            border-color: rgba(37, 99, 235, 0.4);
+            border-radius: 18px;
+            padding: 1.5rem 2rem;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
         }
 
         .faq-header {
-            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            user-select: none;
         }
 
         .faq-header h3 {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
-            letter-spacing: -0.3px;
         }
 
         .faq-toggle-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 600;
+            background: none;
+            border: none;
+            color: #60a5fa;
+            font-size: 1.5rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .faq-toggle-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
         }
 
         .faq-content {
-            padding: 0 2rem 1.5rem 2rem;
             max-height: 200px;
             overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s;
+            transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+            opacity: 1;
+            margin-top: 1rem;
         }
 
         .faq-card.collapsed .faq-content {
             max-height: 0;
-            padding-top: 0;
-            padding-bottom: 0;
+            opacity: 0;
+            margin-top: 0;
         }
 
         .faq-content p {
             color: var(--text-muted);
             font-size: 0.95rem;
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
         /* Footer */
         footer {
-            text-align: center;
-            padding: 3rem 6%;
+            padding: 4rem 6%;
             border-top: 1px solid var(--border-color);
-            background: rgba(5, 6, 8, 0.9);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             position: relative;
             z-index: 2;
         }
 
-        footer p {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
+        /* Scroll Reveal Utility */
+        .reveal-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-up.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
-<body class="loading">
+<body>
 
     <div id="intro-loader">
         <div class="wave-container">
             <canvas id="intro-canvas"></canvas>
-        </div>
-        <div class="loader-brand-wrapper">
-            <div class="loader-spinner"></div>
         </div>
     </div>
 
@@ -544,13 +507,13 @@
             Discover, install, and launch Minecraft instances from one dark, quiet surface with native Modrinth and CurseForge support.
         </p>
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;" class="reveal-up" style="transition-delay: 0.3s;">
-            <a href="#download" class="btn" id="download-btn">DOWNLOAD LAUNCHER</a>
+            <a href="#download" class="btn">DOWNLOAD LAUNCHER</a>
             <a href="#features" class="btn btn-secondary">EXPLORE FEATURES</a>
         </div>
         
         <div class="hero-image-container reveal-up" style="transition-delay: 0.4s;" id="tilt-container">
             <div class="hero-img-card" id="tilt-card">
-                <img src="images/tidal-launcher-screenshot.png" alt="Tidal Client UI Preview" onerror="this.parentElement.innerHTML='<span style=\'color: var(--text-muted); font-size: 0.75rem; display: block; padding: 3rem 0;\'>[ PLACE tidal-launcher-screenshot.png IN images/ FOLDER ]</span>';">
+                <img src="images/tidal-launcher-screenshot.png" alt="Tidal Client UI Preview" onerror="this.parentElement.innerHTML='<div style=\'height: 450px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.875rem; text-align: center; padding: 2rem;\'>[ PLACE tidal-launcher-screenshot.png IN images/ FOLDER OR PREVIEW UI ]</div>';">
             </div>
         </div>
     </section>
@@ -583,6 +546,22 @@
                 <p>Immerse yourself in dynamically updating seasonal and holiday themes that adapt to the time of year.</p>
             </div>
 
+            <div class="feature-card reveal-up" style="transition-delay: 0.4s;">
+                <div class="feature-icon-box">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h3>ACCOUNT SECURITY</h3>
+                <p>Official Microsoft OAuth authentication ensures your credentials remain completely secure and private on your local machine.</p>
+            </div>
+
+            <div class="feature-card reveal-up" style="transition-delay: 0.5s;">
+                <div class="feature-icon-box">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                </div>
+                <h3>AUTO BACKUPS</h3>
+                <p>Never lose your hard-earned progress again with automated, compressed cloud or local world backups before every major update.</p>
+            </div>
+
         </div>
     </section>
 
@@ -594,19 +573,19 @@
             <div class="os-card reveal-up" style="transition-delay: 0.1s;">
                 <h3>WINDOWS</h3>
                 <p>Windows 10 / 11 (64-bit)</p>
-                <a href="#" class="btn" style="justify-content: center; width: 100%;">DOWNLOAD .EXE</a>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">DOWNLOAD .EXE</a>
             </div>
             
             <div class="os-card reveal-up" style="transition-delay: 0.2s;">
                 <h3>MACOS</h3>
                 <p>Apple Silicon & Intel (macOS 12+)</p>
-                <a href="#" class="btn" style="justify-content: center; width: 100%;">DOWNLOAD .DMG</a>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">DOWNLOAD .DMG</a>
             </div>
 
             <div class="os-card reveal-up" style="transition-delay: 0.3s;">
                 <h3>LINUX</h3>
                 <p>AppImage / Flatpak / Debian</p>
-                <a href="#" class="btn" style="justify-content: center; width: 100%;">DOWNLOAD LINUX</a>
+                <a href="#" class="btn w-full" style="justify-content: center; width: 100%;">DOWNLOAD LINUX</a>
             </div>
         </div>
     </section>
@@ -652,6 +631,26 @@
                 </div>
                 <div class="faq-content">
                     <p>Yes, you have full control over memory allocation, garbage collection parameters, and custom optimization arguments per instance.</p>
+                </div>
+            </div>
+
+            <div class="faq-card reveal-up" style="transition-delay: 0.5s;">
+                <div class="faq-header" onclick="toggleFaq(this)">
+                    <h3>IS MY MICROSOFT ACCOUNT SECURE?</h3>
+                    <button class="faq-toggle-btn" title="Toggle Question">−</button>
+                </div>
+                <div class="faq-content">
+                    <p>Tidal Client uses official Microsoft authorization endpoints. Your password is never seen or stored by us; authentication is handled entirely through Microsoft's secure OAuth flow.</p>
+                </div>
+            </div>
+
+            <div class="faq-card reveal-up" style="transition-delay: 0.6s;">
+                <div class="faq-header" onclick="toggleFaq(this)">
+                    <h3>HOW CAN I CONTRIBUTE OR REPORT BUGS?</h3>
+                    <button class="faq-toggle-btn" title="Toggle Question">−</button>
+                </div>
+                <div class="faq-content">
+                    <p>You can join our community Discord server or check out our public GitHub repository to submit bug reports, pull requests, and feature suggestions.</p>
                 </div>
             </div>
 
@@ -714,7 +713,6 @@
                 if (loaderOpacity <= 0) {
                     animationComplete = true;
                     loader.style.display = 'none';
-                    document.body.classList.remove('loading');
                     return;
                 }
             }
@@ -726,7 +724,7 @@
             requestAnimationFrame(animateWave);
         }, 150);
 
-        // Mouse tracking for interactive particle field
+        // --- 2. Interactive Particle Field Background ---
         let mouseX = window.innerWidth / 2;
         let mouseY = window.innerHeight / 2;
 
@@ -821,7 +819,7 @@
             height = canvas.height = window.innerHeight;
         });
 
-        // Scroll Reveal Observer
+        // --- 3. Scroll Reveal Observer ---
         const observerOptions = {
             threshold: 0.1,
             rootMargin: "0px 0px -40px 0px"
@@ -840,7 +838,7 @@
             observer.observe(el);
         });
 
-        // Intense 3D Tilt Effect on Hero Image Card
+        // --- 4. Intense 3D Tilt Effect on Hero Image Card ---
         const tiltContainer = document.getElementById('tilt-container');
         const tiltCard = document.getElementById('tilt-card');
 
@@ -853,10 +851,10 @@
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                const rotateX = -((y - centerY) / centerY) * 22;
-                const rotateY = ((x - centerX) / centerX) * 22;
+                const rotateX = -((y - centerY) / centerY) * 15;
+                const rotateY = ((x - centerX) / centerX) * 15;
                 
-                tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.06, 1.06, 1.06)`;
+                tiltCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
             });
 
             tiltContainer.addEventListener('mouseleave', () => {
@@ -869,7 +867,7 @@
             });
         }
 
-        // Feature and OS cards intense tilt
+        // --- 5. Feature and OS cards intense tilt ---
         document.querySelectorAll('.feature-card, .os-card').forEach(card => {
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -877,9 +875,9 @@
                 const y = e.clientY - rect.top;
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
-                const rotateX = -((y - centerY) / centerY) * 15;
-                const rotateY = ((x - centerX) / centerX) * 15;
-                card.style.transform = `translateY(-20px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+                const rotateX = -((y - centerY) / centerY) * 12;
+                const rotateY = ((x - centerX) / centerX) * 12;
+                card.style.transform = `translateY(-10px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
             });
             card.addEventListener('mouseleave', () => {
                 card.style.transform = 'translateY(0px) rotateX(0deg) rotateY(0deg) scale(1)';
@@ -890,7 +888,7 @@
             });
         });
 
-        // FAQ Toggle Function with smooth animations
+        // --- 6. FAQ Toggle Function with smooth animations ---
         function toggleFaq(headerElement) {
             const card = headerElement.closest('.faq-card');
             const btn = headerElement.querySelector('.faq-toggle-btn');
